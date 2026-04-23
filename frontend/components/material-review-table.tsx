@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 
+import { FeishuSyncButton } from "@/components/feishu-sync-button";
 import { StatusPill } from "@/components/status-pill";
 import { TaskActions } from "@/components/task-actions";
 import { getMaterialFileName, getMaterialPreviewUrl } from "@/lib/media";
@@ -70,6 +71,7 @@ export function MaterialReviewTable({ batches, tasks }: MaterialReviewTableProps
           <button className={showReviewed ? "button highlight" : "button secondary"} onClick={() => setShowReviewed(true)}>
             已审核素材 ({reviewedBatches.length})
           </button>
+          <FeishuSyncButton />
         </div>
       </section>
 
