@@ -1,4 +1,4 @@
-import { AccountDevice, MaterialBatch, PublishLog, PublishTask, PublishTaskDetail } from "@/lib/types";
+import { AccountDevice, DewuTopic, MaterialBatch, PublishLog, PublishTask, PublishTaskDetail } from "@/lib/types";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://127.0.0.1:8000";
 
@@ -37,6 +37,10 @@ export async function getAccountDevices(): Promise<AccountDevice[]> {
 export async function getLogs(taskId?: string): Promise<PublishLog[]> {
   const suffix = taskId ? `?task_id=${encodeURIComponent(taskId)}` : "";
   return safeRequest(`/api/publish-logs${suffix}`, []);
+}
+
+export async function getDewuTopics(): Promise<DewuTopic[]> {
+  return safeRequest("/api/dewu-topics", []);
 }
 
 export { API_BASE_URL };
