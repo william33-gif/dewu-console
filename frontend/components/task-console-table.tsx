@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 
-import { FeishuSyncButton } from "@/components/feishu-sync-button";
 import { StatusPill } from "@/components/status-pill";
 import { TaskActions } from "@/components/task-actions";
 import { API_BASE_URL } from "@/lib/api";
@@ -72,7 +71,9 @@ export function TaskConsoleTable({ tasks, materialBatches }: TaskConsoleTablePro
   };
 
   const toggleAllReady = () => {
-    setSelectedTaskIds((current) => (allReadySelected ? current.filter((taskId) => !readyTaskIds.includes(taskId)) : [...new Set([...current, ...readyTaskIds])]));
+    setSelectedTaskIds((current) =>
+      allReadySelected ? current.filter((taskId) => !readyTaskIds.includes(taskId)) : [...new Set([...current, ...readyTaskIds])],
+    );
   };
 
   const runBatchPublish = () => {
@@ -109,7 +110,6 @@ export function TaskConsoleTable({ tasks, materialBatches }: TaskConsoleTablePro
           <button className={showPublished ? "button highlight" : "button secondary"} disabled={pending} onClick={() => setShowPublished(true)}>
             已发布任务 ({publishedCount})
           </button>
-          <FeishuSyncButton />
           <button className="button" disabled={pending || showPublished || selectedReadyTaskIds.length === 0} onClick={runBatchPublish}>
             批量发布{selectedReadyTaskIds.length > 0 ? ` (${selectedReadyTaskIds.length})` : ""}
           </button>
@@ -207,7 +207,9 @@ export function TaskConsoleTable({ tasks, materialBatches }: TaskConsoleTablePro
           </table>
 
           {visibleTasks.length === 0 ? (
-            <div className="empty-state">{showPublished ? "当前没有已发布任务。需要回退时再来这里看。" : "当前没有待处理任务。先去素材批次页完成人工审核。"}</div>
+            <div className="empty-state">
+              {showPublished ? "当前没有已发布任务。需要回退时再来这里看。" : "当前没有待处理任务。先去素材批次页完成人工审核。"}
+            </div>
           ) : null}
         </div>
       </section>
