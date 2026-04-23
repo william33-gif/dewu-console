@@ -78,3 +78,13 @@ export interface PublishTaskDetail extends PublishTask {
   account_device?: AccountDevice | null;
   logs: PublishLog[];
 }
+
+export interface DewuTopic {
+  id: number;
+  topic_text: string;
+  sort_order: number;
+  is_enabled: boolean;
+  note?: string | null;
+  created_at: string;
+  updated_at: string;
+}
