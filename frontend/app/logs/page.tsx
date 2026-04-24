@@ -1,6 +1,6 @@
 import { StatusPill } from "@/components/status-pill";
 import { getLogs } from "@/lib/api";
-import { getResultPreviewUrl } from "@/lib/media";
+import { getResultPreviewUrl, getResultThumbnailUrl } from "@/lib/media";
 
 export const dynamic = "force-dynamic";
 
@@ -19,6 +19,7 @@ export default async function LogsPage() {
       <section className="log-grid">
         {logs.map((log) => {
           const screenshotUrl = getResultPreviewUrl(log.screenshot);
+          const screenshotPreviewUrl = getResultThumbnailUrl(log.screenshot) ?? screenshotUrl;
 
           return (
             <article key={log.id} className="log-card">
@@ -29,9 +30,9 @@ export default async function LogsPage() {
               <h3>{log.step_name}</h3>
               <p className="muted">任务ID：{log.task_id}</p>
               <p>{log.detail ?? "无补充信息"}</p>
-              {screenshotUrl ? (
+              {screenshotUrl && screenshotPreviewUrl ? (
                 <a href={screenshotUrl} target="_blank" rel="noreferrer" className="result-shot-frame">
-                  <img src={screenshotUrl} alt={`${log.step_name} screenshot`} className="result-shot-image small" />
+                  <img src={screenshotPreviewUrl} alt={`${log.step_name} screenshot`} className="result-shot-image small" loading="lazy" decoding="async" />
                 </a>
               ) : null}
               <p className="muted">截图：{log.screenshot ?? "-"}</p>
