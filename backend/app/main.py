@@ -5,6 +5,7 @@ from fastapi.staticfiles import StaticFiles
 from app.api.router import api_router
 from app.core.config import get_settings
 from app.core.db import Base, engine
+from app.services.image_preview import preview_response
 from app.services.scheduler import start_publish_scheduler, stop_publish_scheduler
 
 settings = get_settings()
@@ -23,6 +24,18 @@ app.add_middleware(
 )
 
 app.include_router(api_router)
+
+
+@app.get("/media/material-thumbs/{media_path:path}")
+def material_preview(media_path: str):
+    return preview_response(settings.resolved_material_storage_dir, media_path, "materials")
+
+
+@app.get("/media/result-thumbs/{media_path:path}")
+def result_preview(media_path: str):
+    return preview_response(settings.resolved_result_storage_dir, media_path, "results")
+
+
 app.mount("/media/materials", StaticFiles(directory=settings.resolved_material_storage_dir), name="materials")
 app.mount("/media/results", StaticFiles(directory=settings.resolved_result_storage_dir), name="results")
 
